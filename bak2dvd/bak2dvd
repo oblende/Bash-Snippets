@@ -85,7 +85,7 @@ dvdburn() {
 		# Growisofs is untrustworthy for DL media.
 			case "$altburn" in
 				cdrskin)
-					cdrskin dev="$1" stream_recording=on driveropts=burnfree -tao -multi -eject -data "$2"
+					cdrskin dev="$1" stream_recording=on driveropts=burnfree -tao -eject -data "$2"
 					;;
 				xorrecord)
 					xorrecord dev="$1" stream_recording=on driveropts=burnfree -tao -multi -eject -data "$2"
