@@ -12,18 +12,106 @@ tarwrite() {
 
 		if command -v gtar &>/dev/null
 		then
-			gtar -cvpML $tl -f $pn $tops "${dir[@]}" "${excludes[@]}" "${filenames[@]}" <&7 &
-			tarpid=$!
-			countlimit=2
-			return
+            if [[ -z "$tops" && -n "$dir" && -n "$excludes" ]]
+            then
+                gtar -cvpML $tl -f $pn "${dir[@]}" "${excludes[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=2
+                return
+            elif [[ -n "$tops" && -z "$dir" && -n "$excludes" ]]
+            then
+                gtar -cvpML $tl -f $pn $tops "${excludes[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=2
+                return
+			elif [[ -n "$tops" && -n "$dir" && -z "$excludes" ]]
+			then
+                gtar -cvpML $tl -f $pn $tops "${dir[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=2
+                return
+			elif [[ -n "$tops" && -z "$dir" && -n "$excludes" ]]
+			then
+                gtar -cvpML $tl -f $pn $tops "${excludes[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=2
+                return
+			elif [[ -n "$tops" && -z "$dir" && -z "$excludes" ]]
+			then
+                gtar -cvpML $tl -f $pn $tops "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=2
+                return
+			elif [[ -z "$tops" && -z "$dir" && -n "$excludes" ]]
+			then
+                gtar -cvpML $tl -f $pn "${excludes[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=2
+                return
+			elif [[ -z "$tops" && -z "$dir" && -z "$excludes" ]]
+			then
+                gtar -cvpML $tl -f $pn "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=2
+                return
+			else
+                gtar -cvpML $tl -f $pn $tops "${dir[@]}" "${excludes[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=2
+                return
 		fi
+    fi
 
 		if command -v tar &>/dev/null
         then
-            tar -cvpML $tl -f $pn $tops "${dir[@]}" "${excludes[@]}" "${filenames[@]}" <&7 &
-            tarpid=$!
-            countlimit=1
+            if [[ -z "$tops" && -n "$dir" && -n "$excludes" ]]
+            then
+                tar -cvpML $tl -f $pn "${dir[@]}" "${excludes[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=1
+                return
+            elif [[ -n "$tops" && -z "$dir" && -n "$excludes" ]]
+            then
+                tar -cvpML $tl -f $pn $tops "${excludes[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=1
+                return
+			elif [[ -n "$tops" && -n "$dir" && -z "$excludes" ]]
+			then
+                tar -cvpML $tl -f $pn $tops "${dir[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=1
+                return
+			elif [[ -n "$tops" && -z "$dir" && -n "$excludes" ]]
+			then
+                tar -cvpML $tl -f $pn $tops "${excludes[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=1
+                return
+			elif [[ -n "$tops" && -z "$dir" && -z "$excludes" ]]
+			then
+                tar -cvpML $tl -f $pn $tops "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=1
+                return
+			elif [[ -z "$tops" && -z "$dir" && -n "$excludes" ]]
+			then
+                tar -cvpML $tl -f $pn "${excludes[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=1
+                return
+			elif [[ -z "$tops" && -z "$dir" && -z "$excludes" ]]
+			then
+                tar -cvpML $tl -f $pn "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=1
+                return
+			else
+                tar -cvpML $tl -f $pn $tops "${dir[@]}" "${excludes[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=1
         fi
+    fi
 
 
 }
@@ -34,18 +122,106 @@ tarread() {
 
 		if command -v gtar &>/dev/null
 		then
-			gtar -cvpMf $pn $tops "${dir[@]}" "${filenames[@]}" <&7 &
-			tarpid=$!
-			countlimit=2
+            if [[ -n "$tops" && -n "$dir" && -z "$filenames" ]]
+            then
+                gtar -xvpMf $pn $tops "${dir[@]}" <&7 &
+                tarpid=$!
+                countlimit=2
+                return
+            elif [[ -n "$tops" && -z "$dir" && -n "$filenames" ]]
+            then
+                gtar -xvpMf $pn $tops "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=2
+                return
+			elif [[ -n "$tops" && -z "$dir" && -z "$filenames" ]]
+            then
+                gtar -xvpMf $pn $tops <&7 &
+                tarpid=$!
+                countlimit=2
+                return
+			elif [[ -z "$tops" && -n "$dir" && -n "$filenames" ]]
+            then
+                gtar -xvpMf $pn "${dir[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=2
+                return
+			elif [[ -z "$tops" && -n "$dir" && -z "$filenames" ]]
+            then
+                gtar -xvpMf $pn "${dir[@]}" <&7 &
+                tarpid=$!
+                countlimit=2
+                return
+			elif [[ -z "$tops" && -z "$dir" && -n "$filenames" ]]
+            then
+                gtar -xvpMf $pn "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=2
+			return
+			elif [[ -z "$tops" && -z "$dir" && -z "$filenames" ]]
+            then
+                gtar -xvpMf $pn <&7 &
+                tarpid=$!
+                countlimit=2
+                return
+			else
+                gtar -xvpMf $pn $tops "${dir[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=2
 			return
 		fi
+    fi
 
 		if command -v tar &>/dev/null
 		then
-			 tar -xvpMf $pn $tops "${dir[@]}" "$filenames[@]}" <&7 &
-                         tarpid=$!
-                         countlimit=1
+		if [[ -n "$tops" && -n "$dir" && -z "$filenames" ]]
+            then
+                tar -xvpMf $pn $tops "${dir[@]}" <&7 &
+                tarpid=$!
+                countlimit=1
+                return
+            elif [[ -n "$tops" && -z "$dir" && -n "$filenames" ]]
+            then
+                tar -xvpMf $pn $tops "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=1
+                return
+			elif [[ -n "$tops" && -z "$dir" && -z "$filenames" ]]
+            then
+                tar -xvpMf $pn $tops <&7 &
+                tarpid=$!
+                countlimit=1
+                return
+			elif [[ -z "$tops" && -n "$dir" && -n "$filenames" ]]
+            then
+                tar -xvpMf $pn "${dir[@]}" "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=1
+                return
+			elif [[ -z "$tops" && -n "$dir" && -z "$filenames" ]]
+            then
+                tar -xvpMf $pn "${dir[@]}" <&7 &
+                tarpid=$!
+                countlimit=1
+                return
+			elif [[ -z "$tops" && -z "$dir" && -n "$filenames" ]]
+            then
+                tar -xvpMf $pn "${filenames[@]}" <&7 &
+                tarpid=$!
+                countlimit=1
+			return
+			elif [[ -z "$tops" && -z "$dir" && -z "$filenames" ]]
+            then
+                tar -xvpMf $pn <&7 &
+                tarpid=$!
+                countlimit=1
+                return
+			else
+			 tar -xvpMf $pn $tops "${dir[@]}" "{$filenames[@]}" <&7 &
+             tarpid=$!
+             countlimit=1
 		fi
+    fi
 }
 
 discread() {
@@ -310,6 +486,7 @@ Usage: bak2dvd [flags] -t "[arguments]"
   -dvd      for single layer DVD+R
   -dvd-dl   for dual layer DVD+R
   -dvd-r    for single layer DVD-R
+  -dvd-ram  for those who have it
   -bd       for single layer BluRay
   -bd-dl    for dual layer BluRay
 
@@ -337,6 +514,7 @@ dir=""
 filenames=""
 cdburner=""
 altdvdburner=""
+device=""
 
 while test $# -gt 0; do
   case "$1" in
@@ -371,6 +549,14 @@ while test $# -gt 0; do
 		shift
 		options=1
 		;;
+    -dvd-ram)
+        # DVD-RAM for those who have this under appreciated, and under utilized media format
+        tracklen=4463168 # DVD-RAM capacity - 10M
+        comp=2
+        shift
+        getAltDVDburner # Media has same defect management as BD-RE. In fact you might call it the orginal.
+        options=1
+        ;;
      -dvd-dl)
 		tracklen=8337408 # DVD+R DL capacity - 10M
 		comp=2
@@ -496,6 +682,13 @@ tarpid=""
 exec 7<>$fifoname
 declare -i readlen
 countlimit=""
+if [[ -z "$device" ]]
+then
+    echo "No device specified."
+    exitcode=1
+    cleanup $exitcode
+fi
+
 if [[ $rw -eq 1 ]]
 then
 	tarwrite $tracklen $pipename "$taropts"
