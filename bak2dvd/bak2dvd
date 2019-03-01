@@ -120,6 +120,7 @@ tarwrite() {
 tarread() {
 	pn=$1
 	tops=$2
+<<<<<<< HEAD
     # These if statements test for null strings and then excutes the permutation of tar or gtar
     # that excludes the null strings.
 	if command -v gtar &>/dev/null
@@ -170,12 +171,21 @@ tarread() {
                 gtar -xvpMf $pn $tops "${dir[@]}" "${filenames[@]}" <&7 &
                 tarpid=$!
                 countlimit=2
+=======
+
+		if command -v gtar &>/dev/null
+		then
+			gtar -xvpMf $pn $tops "${dir[@]}" "${filenames[@]}" <&7 &
+			tarpid=$!
+			countlimit=2
+>>>>>>> master
 			return
 		fi
     fi
 
 		if command -v tar &>/dev/null
 		then
+<<<<<<< HEAD
 		if [[ -n "$tops" && -n "$dir" && -z "$filenames" ]]
             then
                 tar -xvpMf $pn $tops "${dir[@]}" <&7 &
@@ -224,6 +234,12 @@ tarread() {
              	countlimit=1
 	    fi
     fi
+=======
+			 tar -xvpMf $pn $tops "${dir[@]}" "${filenames[@]}" <&7 &
+                         tarpid=$!
+                         countlimit=1
+		fi
+>>>>>>> master
 }
 
 discread() {
@@ -251,6 +267,7 @@ discread() {
             fi
         done
     else
+<<<<<<< HEAD
         while [ "$counter" -eq $countlim ]
         do
             dd if=$dev of=$pn bs=1k count=$rl
@@ -264,6 +281,21 @@ discread() {
             fi
         done
     fi
+=======
+	while [ "$counter" -eq $countlim ]
+	do
+		dd if=$dev of=$pn bs=1k count=$rl
+		eject $dev
+		counter=0
+		counter=$(ps -A | grep $tarpid | wc -l)
+		if [[ $counter -eq $countlim ]]
+		then
+			read -p "Insert next disc and press Enter:" response
+			echo "$response" >&7
+		fi
+	done
+	fi
+>>>>>>> master
 }
 
 dvdburn() {
@@ -534,7 +566,7 @@ declare -i rw
 declare -a dir
 declare -a filenames
 dir=""
-filenames=""
+#filenames=""
 cdburner=""
 altdvdburner=""
 device=""
