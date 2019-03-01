@@ -282,10 +282,11 @@ dvdburn() {
 			case "$altburn" in
 				cdrskin)
                     			# cdrskin doesn't like -multi when burning BD-R media.
-					cdrskin dev="$1" stream_recording=on driveropts=burnfree -tao -eject -data "$2"
+					# BD-RE media needs to be formatted before recording
+					cdrskin dev="$1" blank=as_needed stream_recording=on driveropts=burnfree -tao -eject -data "$2"
 					;;
 				xorrecord)
-					xorrecord dev="$1" stream_recording=on driveropts=burnfree -tao -multi -eject -data "$2"
+					xorrecord dev="$1" blank=as_needed stream_recording=on driveropts=burnfree -tao -multi -eject -data "$2"
 					;;
 				*)
 					growisofs -Z "$1"=$2
@@ -537,6 +538,7 @@ filenames=""
 cdburner=""
 altdvdburner=""
 device=""
+taropts=""
 
 while test $# -gt 0; do
   case "$1" in
